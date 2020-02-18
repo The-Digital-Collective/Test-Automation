@@ -1,7 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
-namespace StatNav.IntegrationTests
+namespace TestAutomationFramework
 {
     public static class SeleniumSetMethods
     {

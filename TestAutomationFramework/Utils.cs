@@ -13,7 +13,7 @@ using System.Net;
 using AventStack.ExtentReports.Reporter;
 using AventStack.ExtentReports;
 
-namespace StatNav.IntegrationTests
+namespace TestAutomationFramework
 {
     public static class Utils
 
@@ -195,8 +195,8 @@ namespace StatNav.IntegrationTests
         public static void Extent_Test(string htmlFilepath)
         {
             //Html Report Initialization
-            AppDriver.htmlReporter = new ExtentHtmlReporter(htmlFilepath);
-            AppDriver.htmlReporter.Configuration().Theme = AventStack.ExtentReports.Reporter.Configuration.Theme.Standard;
+            AppDriver.htmlReporter = new ExtentV3HtmlReporter(htmlFilepath);
+            AppDriver.htmlReporter.Config.Theme = AventStack.ExtentReports.Reporter.Configuration.Theme.Standard;
             AppDriver.extent = new ExtentReports();
             AppDriver.extent.AttachReporter(AppDriver.htmlReporter);
             string hostname = Dns.GetHostName();

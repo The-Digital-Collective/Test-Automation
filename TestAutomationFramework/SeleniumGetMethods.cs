@@ -2,7 +2,7 @@
 using OpenQA.Selenium.Support.UI;
 using System.Linq;
 
-namespace StatNav.IntegrationTests
+namespace TestAutomationFramework
 {
     public static class SeleniumGetMethods
     {
