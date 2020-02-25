@@ -8,34 +8,43 @@ using OpenQA.Selenium;
 using System.Net.Mail;
 using OpenQA.Selenium.Support.UI;
 using System.Diagnostics;
-using Excel;
 using System.Net;
 using AventStack.ExtentReports.Reporter;
 using AventStack.ExtentReports;
+using ExcelDataReader;
 
 namespace TestAutomationFramework
 {
     public static class Utils
 
     {
-        public  static DataTable ExcelToDataTable(string fileName,string strSheetname)
+        public static DataTable ExcelToDataTable(string fileName, string strSheetname)
         {
             //open file and returns as Stream
-            FileStream stream = File.Open(fileName, FileMode.Open, FileAccess.Read);
-            //Createopenxmlreader via ExcelReaderFactory
-            IExcelDataReader excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream); //.xlsx                            
-            //Set the First Row as Column Name
-            excelReader.IsFirstRowAsColumnNames = true;
-            //Return as DataSet
-            DataSet result = excelReader.AsDataSet();
-            //Get all the Tables
-            DataTableCollection table = result.Tables;
-            //Store it in DataTable
-            DataTable resultTable = table[strSheetname];
+            using (var stream = File.Open(fileName, FileMode.Open, FileAccess.Read))
+            {
+                using (var reader = ExcelReaderFactory.CreateReader(stream))
+                {
+                    var result = reader.AsDataSet(new ExcelDataSetConfiguration()
+                    {
+                        ConfigureDataTable = (data) => new ExcelDataTableConfiguration()
+                        {
+                            UseHeaderRow = true
+                        }
+                    });
 
-            //return
-            return resultTable;
+
+                    //Get all the Tables
+                    DataTableCollection table = result.Tables;
+                    //Store it in DataTable
+                    DataTable resultTable = table[strSheetname];
+
+                    //return
+                    return resultTable;
+                }
+            }
         }
+
         
 
         public static string ReadData(int rowNumber, string columnName)
